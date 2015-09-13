@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+echo -e "\n\033[37;1m"
+echo "============================================================="
+echo -e "\n\033[32;1m"
+echo " (╯°□°）╯︵ ┻━┻ LET'S GET THIS PARTY STARTED (╯°□°）╯︵ ┻━┻"
+echo -e "\033[0m\n\033[37;1m"
+echo "============================================================="
+echo -e "\033[0m\n"
+
 # get patched versions of GClosure and Clojurescript
 
   if [ ! -d "git-deps" ]; then
@@ -51,8 +59,6 @@
 
   CLASSPATH=$(dep_arr=(`echo deps/**`); IFS=:; echo "${dep_arr[*]}"):src/clj:src/cljs
 
-# get this party started
-
-  echo "\n\n\x1b[30;1m(╯°□°）╯︵ ┻━┻ LET'S GET THIS PARTY STARTED (╯°□°）╯︵ ┻━┻\x1b[0m\n\n"
+# firing mah lazor
 
   java -cp $CLASSPATH clojure.main build.clj
