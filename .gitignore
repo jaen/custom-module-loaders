@@ -3,3 +3,4 @@ out/
 libs/
 git-deps
 deps/
+build-log/
