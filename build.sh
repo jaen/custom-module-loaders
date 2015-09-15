@@ -65,6 +65,28 @@ mkdir -p build-log
         else
           echo "    Clojurescript jar already built, nothing to do here."
         fi
+
+      echo -e "  \033[32;1mReagent\033[0m"
+
+        if [ ! -d "reagent" ]; then
+          echo -n "    Cloning jaen/reagent..  "
+            git clone https://github.com/jaen/reagent.git > /dev/null 2>&1
+          echo -e "    \033[32;1mDONE\033[0m"
+        fi
+
+        reagent_jar=(reagent/target/reagent-*-SNAPSHOT.jar)
+        if [ ! -f "${reagent_jar[0]}" ]; then
+          echo -n "    Building reagent jar...  "
+            (
+              cd reagent
+              git checkout feature/modular-react > /dev/null 2>&1
+              git pull > /dev/null 2>&1
+              lein jar > $BUILD_ROOT/build-log/reagent 2>&1
+            )
+          echo -e "   \033[32;1mDONE\033[0m"
+        else
+          echo "    Reagent jar already built, nothing to do here."
+        fi
   )
 
 # get required jars in place
@@ -78,11 +100,14 @@ mkdir -p build-log
       wget -nc http://central.maven.org/maven2/org/clojure/google-closure-library/0.0-20150805-acd8b553/google-closure-library-0.0-20150805-acd8b553.jar -O gcl.jar > /dev/null 2>&1
       wget -nc http://central.maven.org/maven2/org/clojure/google-closure-library-third-party/0.0-20150805-acd8b553/google-closure-library-third-party-0.0-20150805-acd8b553.jar -O gcl-thirdparty.jar > /dev/null 2>&1
 
-      if [ ! -d "deps" ]; then
+      if [ ! -d "deps/gcc.jar" ]; then
         cp ../git-deps/closure-compiler/build/compiler.jar gcc.jar
       fi
-      if [ ! -d "deps" ]; then
+      if [ ! -d "deps/gcl.jar" ]; then
         cp ../git-deps/clojurescript/target/clojurescript-1.7.*-aot.jar cljs.jar
+      fi
+      if [ ! -d "deps/reagent.jar" ]; then
+        cp ../git-deps/reagent/target/reagent-*-SNAPSHOT.jar reagent.jar
       fi
 
     echo -e "        \033[32;1mDONE\033[0m"

@@ -2,7 +2,7 @@
 
 ## How to run this
 
-You need to have Java (obviously) ant, maven and npm installed locally for this to run (as well as wget and git but if you checked out this repo there's a quite high chance you already have them anyway). No Clojure/Clojurescript/lein/boot needed.
+You need to have Java (obviously) ant, maven and npm installed locally for this to run (as well as wget and git but if you checked out this repo there's a quite high chance you already have them anyway). On this branch you also need lein to create reagent jar.
 
 If you have, then fire up your shell, type
 ```

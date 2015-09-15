@@ -4,7 +4,15 @@
     </head>
     <body>
         <script type="text/javascript">
-            window.process = {env: "nope"}; // fak tu node
+            // var DummyReact = {};
+            // var DummyDOMProperty = {};
+            // Object.observe(DummyReact, function (changes){
+            //   console.log("Changes:");
+            //   console.log(changes);
+            //   debugger;
+            // })
+            // React = DummyReact;
+            window.process = {env: {NODE_ENV: "nope"}}; // fak tu node
         </script>
         <script type="text/javascript" src="out/custom-module-loaders.js"></script>
     </body>
