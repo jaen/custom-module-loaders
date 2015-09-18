@@ -57,7 +57,7 @@ mkdir -p build-log
           echo -n "    Building clojurescript jar...  "
             (
               cd clojurescript
-              git checkout feature/custom-module-loaders > /dev/null 2>&1
+              git checkout feature/add-modular-lib-support > /dev/null 2>&1
               git pull > /dev/null 2>&1
               script/build > $BUILD_ROOT/build-log/clojurescript 2>&1
             )
@@ -118,20 +118,14 @@ mkdir -p build-log
   echo -en "\033[37;1mChecking npm dependencies...\033[0m  "
     if [ ! -d "node_modules" ]; then
       npm install > $BUILD_ROOT/build-log/npm-install 2>&1
-
-      cp node_modules/performance-now/lib/performance-now.js node_modules/performance-now/index.js
-      cp node_modules/react/react.js node_modules/react/index.js
-      cp node_modules/react-tap-event-plugin/src/* node_modules/react-tap-event-plugin/
-      cp node_modules/react-tap-event-plugin/src/TapEventPlugin.js node_modules/react-tap-event-plugin/index.js
-      cp -R node_modules/material-ui/lib node_modules/material-ui/material-ui
-      cp node_modules/material-ui/node_modules/react-draggable2/lib/draggable.js node_modules/material-ui/node_modules/react-draggable2/index.js
     fi
   echo -e "        \033[32;1mDONE\033[0m"
 
 # set up the classpath
 
   CLASSPATH=$(dep_arr=(`echo deps/**`); IFS=:; echo "${dep_arr[*]}"):src/clj:src/cljs
+  JVMARGS="-Dclojure.compiler.disableLocalsClearing=true -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
 
 # firing mah lazor
 
-  java -cp $CLASSPATH clojure.main build.clj
+  java -cp $CLASSPATH $JVMARGS clojure.main build.clj
